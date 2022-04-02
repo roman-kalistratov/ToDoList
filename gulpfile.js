@@ -7,7 +7,7 @@ const uglify = require("gulp-terser");
 const concat = require('gulp-concat');
 const browserSync = require('browser-sync').create();
 
-gulp.task('browserSync', function () {
+gulp.task('server', function () {
     browserSync.init({
         server: {
             baseDir: "dist"
@@ -36,6 +36,7 @@ gulp.task('styles', function () {
             prefix: ''
         }))
         .pipe(gulp.dest('dist/assets'))
+        .pipe(browserSync.stream())
 });
 
 
@@ -44,6 +45,7 @@ gulp.task('scripts', function() {
             .pipe (concat ('main.min.js')) 
             .pipe(uglify())
             .pipe (gulp.dest ('dist/assets/js')) 
+            .pipe(browserSync.stream())
 });
 
 
@@ -56,4 +58,4 @@ gulp.task('watch', function () {
 
 
 
-exports.default = gulp.parallel('watch','browserSync','html', 'styles','scripts');
+exports.default = gulp.parallel('watch','server','html', 'styles','scripts');
